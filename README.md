@@ -2,7 +2,6 @@
 
 **Multi-class Medical Specialty Classification from Clinical Transcriptions**
 
-Repository for the ACM research paper submitted to SIGIR / CIKM / WSDM.
 Built on the MTSamples clinical transcription dataset with 4,966 records across
 40 medical specialties.
 
