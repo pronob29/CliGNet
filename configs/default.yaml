@@ -1,0 +1,86 @@
+# configs/default.yaml
+# ---------------------
+# Default configuration for all CLiGNet experiments.
+# Override individual values by passing flags to the scripts,
+# or by creating a model-specific config (e.g., configs/clignet.yaml).
+
+# ── Reproducibility ───────────────────────────────────────────────────────────
+seed: 42
+
+# ── Data ──────────────────────────────────────────────────────────────────────
+data:
+  raw_csv:        "data/raw/mtsamples.csv"
+  processed_dir:  "data/processed/"
+  label_graph:    "data/processed/label_graph.pt"
+  train_ratio:    0.70
+  val_ratio:      0.15
+  # test_ratio = 1 - train_ratio - val_ratio = 0.15
+
+# ── Tokenization ──────────────────────────────────────────────────────────────
+tokenizer:
+  name:           "emilyalsentzer/Bio_ClinicalBERT"
+  max_length:     512
+  stride:         128    # sliding window stride (overlap = max_length - stride)
+  max_chunks:     4      # maximum chunks per document
+
+# ── Model ─────────────────────────────────────────────────────────────────────
+model:
+  bert_model:           "emilyalsentzer/Bio_ClinicalBERT"
+  gcn_hidden:           512
+  gcn_out:              256
+  gcn_dropout:          0.3
+  bert_dropout:         0.1
+  freeze_bert_layers:   6   # freeze first 6 of 12 BERT encoder layers
+
+# ── Label Graph ───────────────────────────────────────────────────────────────
+graph:
+  similarity_threshold: 0.30
+  icd10_bonus:          0.20
+  max_docs_per_spec:    30
+  max_embed_length:     128   # token length for node embedding computation
+
+# ── Training ──────────────────────────────────────────────────────────────────
+training:
+  bert_lr:              2.0e-5
+  head_lr:              1.0e-3
+  weight_decay:         0.01
+  max_epochs:           30
+  batch_size:           16
+  grad_accum_steps:     2      # effective batch size = batch_size * grad_accum_steps
+  warmup_ratio:         0.10   # fraction of steps for linear warmup
+  patience:             5      # early stopping patience (on val macro-F1)
+  clip_grad_norm:       1.0
+
+# ── Loss ──────────────────────────────────────────────────────────────────────
+loss:
+  type:   "focal_bce"         # options: focal_bce, standard_bce
+  gamma:  2.0                 # focal loss focusing parameter (tune: 1.0, 2.0, 3.0)
+
+# ── Calibration ───────────────────────────────────────────────────────────────
+calibration:
+  enabled:        true
+  method:         "platt"     # per-label Platt scaling via L-BFGS
+  max_iter:       50
+  threshold_grid_step: 0.01  # grid step for per-label threshold search
+
+# ── Evaluation ────────────────────────────────────────────────────────────────
+evaluation:
+  primary_metric:   "macro_f1"
+  mcnemar_alpha:    0.05      # family-wise error rate (Bonferroni applied)
+  n_cv_folds:       10        # for 10-fold CV (optional, for paper CI)
+
+# ── Interpretability ──────────────────────────────────────────────────────────
+interpretability:
+  ig_n_steps:       50
+  ig_max_length:    512
+  ig_samples_per_spec: 5      # number of test docs per specialty to explain
+  top_k_tokens:     5
+  failure_f1_threshold: 0.40  # F1 below which a specialty is "low-performing"
+
+# ── Results Directories ────────────────────────────────────────────────────────
+results:
+  baselines:        "results/baselines/"
+  clignet:          "results/clignet/"
+  ablations:        "results/ablations/"
+  interpretability: "results/interpretability/"
+  figures:          "results/figures/"

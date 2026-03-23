@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# PyTorch checkpoints (large files — do not commit to git)
+results/baselines/*/best_model.pt
+results/clignet/*/best_model.pt
+results/ablations/*/best_model.pt
+
+# Data files (download separately)
+data/raw/
+data/processed/*.csv
+data/processed/*.npy
+data/processed/*.pt
+
+# Generated results (reproducible — not committed)
+results/*/predictions.npz
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+logs/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Misc
+*.pkl
