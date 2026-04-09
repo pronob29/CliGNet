@@ -247,11 +247,11 @@ License: CC BY 4.0.
 If you use this code or dataset analysis in your research, please cite:
 
 ```bibtex
-@inproceedings{clignet2026,
-  title     = {CLiGNet: Clinical Label-interaction Graph Network for Medical Specialty Classification},
-  author    = {Pronob},
-  booktitle = {Proceedings of the ACM SIGIR / CIKM / WSDM},
-  year      = {2026},
+@article{barman2026clignet,
+  title={CLiGNet: Clinical Label-Interaction Graph Network for Medical Specialty Classification from Clinical Transcriptions},
+  author={Barman, Pronob Kumar and Barman, Pronoy Kumar},
+  journal={arXiv preprint arXiv:2603.22752},
+  year={2026}
 }
 ```
 
